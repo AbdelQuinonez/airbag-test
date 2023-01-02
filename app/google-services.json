@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "230999062899",
+    "project_id": "airbag-test",
+    "storage_bucket": "airbag-test.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:230999062899:android:c2df719cd753f44ddaad06",
+        "android_client_info": {
+          "package_name": "com.example.airbagtest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "230999062899-g006i7uiq020bspphnjf0vk49g1vce9n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5xM3KKK0uS-xWoD7MZvNEc4dZheeYIGs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "230999062899-g006i7uiq020bspphnjf0vk49g1vce9n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
