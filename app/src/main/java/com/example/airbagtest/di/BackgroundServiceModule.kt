@@ -2,8 +2,6 @@ package com.example.airbagtest.di
 
 import android.content.Context
 import androidx.work.WorkManager
-import androidx.work.Worker
-import androidx.work.WorkerParameters
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

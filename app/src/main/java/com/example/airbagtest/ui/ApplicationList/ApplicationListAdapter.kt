@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.airbagtest.database.model.RunningAppProcessCache
 import com.example.airbagtest.databinding.RunningAppProcessItemBinding
 import com.example.airbagtest.model.RunningAppProcess
 

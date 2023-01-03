@@ -16,7 +16,7 @@ class RunningAppProcessRemoteRepositoryImpl @Inject constructor(
         return withContext(dispatcher.io()) {
             suspendCoroutine { continuation ->
                 db.collection(RunningAppProcessCache::class.simpleName.toString())
-                    .document()
+                    .document(android.os.Build.MODEL)
                     .set(runningAppProcessCache)
                     .addOnCompleteListener {
                         if (it.isSuccessful) {

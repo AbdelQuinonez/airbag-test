@@ -1,17 +1,10 @@
 package com.example.airbagtest.interactors
 
-import android.app.ActivityManager
-import android.app.AppOpsManager
-import android.app.usage.UsageStats
 import android.app.usage.UsageStatsManager
 import android.content.Context
-import android.content.Context.ACTIVITY_SERVICE
 import android.content.Context.USAGE_STATS_SERVICE
-import android.util.Log
 import com.example.airbagtest.database.model.RunningAppProcessCache
-import com.example.airbagtest.database.model.toCache
 import dagger.hilt.android.qualifiers.ApplicationContext
-import java.util.*
 import javax.inject.Inject
 
 

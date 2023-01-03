@@ -5,7 +5,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.airbagtest.database.model.RunningAppProcessCache
-import com.example.airbagtest.model.RunningAppProcess
 
 @Dao
 interface RunningAppProcessDao {

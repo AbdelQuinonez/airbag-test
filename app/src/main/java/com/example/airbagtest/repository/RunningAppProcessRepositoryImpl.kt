@@ -2,7 +2,6 @@ package com.example.airbagtest.repository
 
 import com.example.airbagtest.database.daos.RunningAppProcessDao
 import com.example.airbagtest.database.model.RunningAppProcessCache
-import com.example.airbagtest.model.RunningAppProcess
 import javax.inject.Inject
 
 class RunningAppProcessRepositoryImpl @Inject constructor(

@@ -37,7 +37,7 @@ class ApplicationListFragment : Fragment() {
     private fun initObservable() {
 
         lifecycleScope.launch{
-            viewModel.uiState.collect{
+            viewModel.uiState.observe(viewLifecycleOwner){
                 updateUi(it)
             }
         }
@@ -45,9 +45,7 @@ class ApplicationListFragment : Fragment() {
         lifecycleScope.launch {
             viewModel.outputWorkInfoItems.observe(viewLifecycleOwner) {
                 if (it[0].state == WorkInfo.State.SUCCEEDED) {
-                    lifecycleScope.launch {
-                        viewModel.requestBackgroundProcesses()
-                    }
+                    requestProcessesToShowList()
                 }
             }
         }
@@ -70,6 +68,7 @@ class ApplicationListFragment : Fragment() {
         initObservable()
         requestPermissions()
         loadView()
+        requestProcessesToShowList()
 
     }
 
@@ -84,6 +83,12 @@ class ApplicationListFragment : Fragment() {
         }
         val intent = Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)
         startActivity(intent)
+    }
+
+    private fun requestProcessesToShowList(){
+        lifecycleScope.launch{
+            viewModel.requestBackgroundProcesses()
+        }
     }
 
 
