@@ -1,5 +1,6 @@
 package com.example.airbagtest.interactors
 
+import com.example.airbagtest.database.model.RunningAppProcessCache
 import com.example.airbagtest.model.RunningAppProcess
 import com.example.airbagtest.repository.RunningAppProcessRepository
 import javax.inject.Inject
@@ -10,7 +11,7 @@ class GetBackgroundProcessDataBaseUseCase @Inject constructor(
 ) {
 
     suspend operator fun invoke(): List<RunningAppProcess>{
-        val cacheList = runningAppProcessRepository.getRunningAppProcesses()
+        val cacheList = getCacheList()
         return List(cacheList.size){ i ->
             val cacheProcess = cacheList[i]
             RunningAppProcess(
@@ -18,5 +19,8 @@ class GetBackgroundProcessDataBaseUseCase @Inject constructor(
             )
         }
     }
+
+    suspend fun getCacheList(): List<RunningAppProcessCache> =
+        runningAppProcessRepository.getRunningAppProcesses()
 
 }
