@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.airbagtest"
-        minSdk 29
+        minSdk 26
         targetSdk 32
         versionCode 1
         versionName "1.0"
@@ -46,6 +46,7 @@ dependencies {
     def nav_version = "2.5.3"
     def room_version = "2.4.3"
     def work_version = "2.7.1"
+    def paging_version = "3.1.1"
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'
@@ -76,6 +77,8 @@ dependencies {
     implementation 'androidx.hilt:hilt-work:1.0.0'
     // When using Kotlin.
     kapt 'androidx.hilt:hilt-compiler:1.0.0'
+
+    implementation "androidx.paging:paging-runtime:$paging_version"
 
 }
 

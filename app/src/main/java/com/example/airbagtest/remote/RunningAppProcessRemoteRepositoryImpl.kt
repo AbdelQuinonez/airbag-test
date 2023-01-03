@@ -1,7 +1,9 @@
 package com.example.airbagtest.remote
 
-import com.example.airbagtest.database.model.RunningAppProcessCache
+import com.example.airbagtest.remote.model.RunningAppProcessRemote
 import com.example.airbagtest.utils.AppDispatcher
+import com.example.airbagtest.utils.Constants.COLLECTION_NAME
+import com.example.airbagtest.utils.Constants.DOCUMENT_NAME
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -12,12 +14,15 @@ class RunningAppProcessRemoteRepositoryImpl @Inject constructor(
     private val dispatcher: AppDispatcher,
     private val db: FirebaseFirestore,
 ) : RunningAppProcessRemoteRepository {
-    override suspend fun insert(runningAppProcessCache: List<RunningAppProcessCache>): Boolean {
+    override suspend fun insert(runningAppProcessRemote: List<RunningAppProcessRemote>): Boolean {
         return withContext(dispatcher.io()) {
             suspendCoroutine { continuation ->
-                db.collection(RunningAppProcessCache::class.simpleName.toString())
-                    .document(android.os.Build.MODEL)
-                    .set(runningAppProcessCache)
+
+                val map = mapOf(android.os.Build.MODEL to runningAppProcessRemote)
+
+                db.collection(COLLECTION_NAME)
+                    .document(DOCUMENT_NAME)
+                    .set(map)
                     .addOnCompleteListener {
                         if (it.isSuccessful) {
                             continuation.resume(true)
@@ -25,6 +30,7 @@ class RunningAppProcessRemoteRepositoryImpl @Inject constructor(
                             continuation.resume(false)
                         }
                     }
+
             }
         }
     }

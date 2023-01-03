@@ -4,6 +4,7 @@ import android.app.usage.UsageStatsManager
 import android.content.Context
 import android.content.Context.USAGE_STATS_SERVICE
 import com.example.airbagtest.database.model.RunningAppProcessCache
+import com.example.airbagtest.database.model.toRemote
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
@@ -23,10 +24,7 @@ class GetBackgroundProcessUseCase @Inject constructor(
         )
 
         return List(stats.size){ i ->
-            val systemProcess = stats[i]
-            RunningAppProcessCache(
-                processName = systemProcess.packageName
-            )
+            stats[i].toRemote()
         }
     }
 

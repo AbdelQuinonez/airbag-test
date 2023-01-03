@@ -3,4 +3,6 @@
 
     <dimen name="match_constraints">0dp</dimen>
 
+    <dimen name="margin_floating_button">32dp</dimen>
+
 </resources>

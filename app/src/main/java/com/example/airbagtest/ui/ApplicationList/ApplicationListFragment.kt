@@ -11,8 +11,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.work.WorkInfo
 import com.example.airbagtest.databinding.FragmentApplicationListBinding
+import com.example.airbagtest.model.RunningAppProcess
 import com.example.airbagtest.ui.ApplicationList.state.ApplicationListUiState
 import com.example.airbagtest.utils.PermissionUtility
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,17 +36,9 @@ class ApplicationListFragment : Fragment() {
 
     private fun initObservable() {
 
-        lifecycleScope.launch{
-            viewModel.uiState.observe(viewLifecycleOwner){
+        viewLifecycleOwner.lifecycleScope.launch{
+            viewModel.uiState.collect{
                 updateUi(it)
-            }
-        }
-
-        lifecycleScope.launch {
-            viewModel.outputWorkInfoItems.observe(viewLifecycleOwner) {
-                if (it[0].state == WorkInfo.State.SUCCEEDED) {
-                    requestProcessesToShowList()
-                }
             }
         }
 
@@ -60,14 +52,23 @@ class ApplicationListFragment : Fragment() {
     }
 
     private fun updateUi(applicationListUiState: ApplicationListUiState) {
-        applicationListAdapter.submitList(applicationListUiState.runningAppProcess)
+        updateRecycler(applicationListUiState.runningAppProcess)
+        updateFloatingButton(applicationListUiState.hasPermissions)
+    }
+
+    private fun updateRecycler(runningAppProcessList:List<RunningAppProcess>){
+        applicationListAdapter.submitList(runningAppProcessList)
+    }
+
+    private fun updateFloatingButton(hasPermissions: Boolean){
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initObservable()
-        requestPermissions()
         loadView()
+        requestPermissions()
         requestProcessesToShowList()
 
     }
@@ -79,15 +80,23 @@ class ApplicationListFragment : Fragment() {
 
     private fun requestPermissions() {
         if (PermissionUtility.hasPackageUsageStatsPermissions(requireContext())) {
+            hasPermissions(true)
             return
         }
+        hasPermissions(false)
         val intent = Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)
         startActivity(intent)
     }
 
     private fun requestProcessesToShowList(){
-        lifecycleScope.launch{
+        viewLifecycleOwner.lifecycleScope.launch{
             viewModel.requestBackgroundProcesses()
+        }
+    }
+
+    private fun hasPermissions(value: Boolean){
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.hasPermissions(value)
         }
     }
 
