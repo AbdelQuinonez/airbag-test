@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.airbagtest.databinding.RunningAppProcessItemBinding
-import com.example.airbagtest.model.RunningAppProcess
+import com.example.airbagtest.domain.model.RunningAppProcess
 
 class ApplicationListAdapter :
     ListAdapter<RunningAppProcess, ApplicationListAdapter.ViewHolder>(RunningAppProcessDiffUtil) {

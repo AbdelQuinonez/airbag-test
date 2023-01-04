@@ -1,4 +1,4 @@
-package com.example.airbagtest.model
+package com.example.airbagtest.domain.model
 
 
 data class RunningAppProcess(

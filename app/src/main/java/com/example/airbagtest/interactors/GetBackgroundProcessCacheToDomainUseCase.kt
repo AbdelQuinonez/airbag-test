@@ -1,7 +1,7 @@
 package com.example.airbagtest.interactors
 
 import com.example.airbagtest.database.model.fromCacheToDomain
-import com.example.airbagtest.model.RunningAppProcess
+import com.example.airbagtest.domain.model.RunningAppProcess
 import javax.inject.Inject
 
 

@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.work.*
 import androidx.work.PeriodicWorkRequest.MIN_PERIODIC_FLEX_MILLIS
 import androidx.work.PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS
-import com.example.airbagtest.core.GetRunningAppProcessesWorker
-import com.example.airbagtest.core.InsertRunningAppProcessesRemoteDataBaseWorker
+import com.example.airbagtest.domain.worker.GetRunningAppProcessesWorker
+import com.example.airbagtest.domain.worker.InsertRunningAppProcessesRemoteDataBaseWorker
 import com.example.airbagtest.interactors.GetBackgroundProcessCacheToDomainUseCase
 import com.example.airbagtest.ui.applicationList.state.ApplicationListUiState
 import com.example.airbagtest.utils.Constants.INSERT_RUNNING_APP_PROCESS_LOCAL_DATABASE_WORK_NAME

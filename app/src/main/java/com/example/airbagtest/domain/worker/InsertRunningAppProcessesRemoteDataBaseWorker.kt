@@ -1,4 +1,4 @@
-package com.example.airbagtest.core
+package com.example.airbagtest.domain.worker
 
 import android.content.Context
 import androidx.hilt.work.HiltWorker

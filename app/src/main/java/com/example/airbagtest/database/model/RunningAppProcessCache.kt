@@ -3,7 +3,7 @@ package com.example.airbagtest.database.model
 import android.app.usage.UsageStats
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.airbagtest.model.RunningAppProcess
+import com.example.airbagtest.domain.model.RunningAppProcess
 import com.example.airbagtest.remote.model.RunningAppProcessRemote
 
 @Entity
