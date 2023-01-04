@@ -64,13 +64,16 @@ class ApplicationListFragment : Fragment() {
         applicationListAdapter.submitList(applicationListUiState.runningAppProcess)
     }
 
+    override fun onResume() {
+        super.onResume()
+        requestProcessesToShowList()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initObservable()
         loadView()
         requestPermissions()
-        requestProcessesToShowList()
     }
 
     override fun onDestroyView() {
