@@ -5,22 +5,23 @@
     android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:paddingTop="@dimen/padding_application_list_recycler_view"
-        android:clipToPadding="false"
         android:id="@+id/rvRunningAppProcess"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingTop="@dimen/padding_application_list_recycler_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabPermissions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/margin_floating_button"
         android:layout_marginBottom="@dimen/margin_floating_button"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/ic_permission_status"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

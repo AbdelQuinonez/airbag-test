@@ -1,8 +1,7 @@
-package com.example.airbagtest.ui.ApplicationList.state
+package com.example.airbagtest.ui.applicationList.state
 
 import com.example.airbagtest.model.RunningAppProcess
 
 data class ApplicationListUiState(
     val runningAppProcess: List<RunningAppProcess> = listOf(),
-    val hasPermissions : Boolean = false
 )

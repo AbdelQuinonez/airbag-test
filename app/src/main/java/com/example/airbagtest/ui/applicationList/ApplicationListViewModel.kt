@@ -1,7 +1,5 @@
-package com.example.airbagtest.ui.ApplicationList
+package com.example.airbagtest.ui.applicationList
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.work.*
@@ -10,11 +8,12 @@ import androidx.work.PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS
 import com.example.airbagtest.core.GetRunningAppProcessesWorker
 import com.example.airbagtest.core.InsertRunningAppProcessesRemoteDataBaseWorker
 import com.example.airbagtest.interactors.GetBackgroundProcessCacheToDomainUseCase
-import com.example.airbagtest.ui.ApplicationList.state.ApplicationListUiState
-import com.example.airbagtest.utils.AppDispatcher
+import com.example.airbagtest.ui.applicationList.state.ApplicationListUiState
 import com.example.airbagtest.utils.Constants.INSERT_RUNNING_APP_PROCESS_LOCAL_DATABASE_WORK_NAME
 import com.example.airbagtest.utils.Constants.INSERT_RUNNING_APP_PROCESS_REMOTE_DATABASE_WORK_NAME
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -24,17 +23,13 @@ import javax.inject.Inject
 class ApplicationListViewModel @Inject constructor(
     private val getBackgroundProcessCacheToDomainUseCase: GetBackgroundProcessCacheToDomainUseCase,
     private val workManager: WorkManager,
-    private val dispatcher: AppDispatcher
 ) : ViewModel() {
 
-    private val _uiState: MutableLiveData<ApplicationListUiState> by lazy {
-        MutableLiveData()
-    }
+    private val _uiState: MutableSharedFlow<ApplicationListUiState> = MutableSharedFlow()
 
-    val uiState: LiveData<ApplicationListUiState> = _uiState
+    val uiState: SharedFlow<ApplicationListUiState> = _uiState
 
-    @Volatile
-    private var applicationListUiState = ApplicationListUiState()
+    private val applicationListUiState = ApplicationListUiState()
 
     init {
         runInsertAppProcessLocalDatabaseWorker()
@@ -85,23 +80,15 @@ class ApplicationListViewModel @Inject constructor(
     }
 
     suspend fun requestBackgroundProcesses() {
-        viewModelScope.launch(dispatcher.io()) {
-            _uiState.postValue(
+        viewModelScope.launch{
+            _uiState.emit(
                 applicationListUiState.copy(
-                    runningAppProcess = getBackgroundProcessCacheToDomainUseCase(),
+                    runningAppProcess = getBackgroundProcessCacheToDomainUseCase()
                 )
             )
         }
     }
 
-    fun hasPermissions(value: Boolean) {
-        _uiState.postValue(
-            applicationListUiState.copy(
-                hasPermissions = value
-            )
-        )
-
-    }
-
 
 }
+

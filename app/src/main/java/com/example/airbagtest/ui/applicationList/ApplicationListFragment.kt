@@ -1,4 +1,4 @@
-package com.example.airbagtest.ui.ApplicationList
+package com.example.airbagtest.ui.applicationList
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,16 +6,15 @@ import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.airbagtest.R
 import com.example.airbagtest.databinding.FragmentApplicationListBinding
-import com.example.airbagtest.model.RunningAppProcess
-import com.example.airbagtest.ui.ApplicationList.state.ApplicationListUiState
+import com.example.airbagtest.ui.applicationList.state.ApplicationListUiState
 import com.example.airbagtest.utils.PermissionUtility
 import com.example.airbagtest.utils.SimpleDialogUtility
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,13 +37,17 @@ class ApplicationListFragment : Fragment() {
     }
 
     private fun initObservable() {
-
-        viewLifecycleOwner.lifecycleScope.launch{
-            viewModel.uiState.observe(viewLifecycleOwner){
-                updateUi(it)
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                // Trigger the flow and start listening for values.
+                // Note that this happens when lifecycle is STARTED and stops
+                // collecting when the lifecycle is STOPPED
+                viewModel.uiState.collect { uiState ->
+                    // New value received
+                    updateUi(uiState)
+                }
             }
         }
-
     }
 
     private fun loadView() {
@@ -58,20 +61,9 @@ class ApplicationListFragment : Fragment() {
     }
 
     private fun updateUi(applicationListUiState: ApplicationListUiState) {
-        updateRecycler(applicationListUiState.runningAppProcess)
-        updateFloatingButton(applicationListUiState.hasPermissions)
+        applicationListAdapter.submitList(applicationListUiState.runningAppProcess)
     }
 
-    private fun updateRecycler(runningAppProcessList:List<RunningAppProcess>){
-        applicationListAdapter.submitList(runningAppProcessList)
-    }
-
-    private fun updateFloatingButton(hasPermissions: Boolean){
-        when(hasPermissions){
-            true -> binding.fabPermissions.setImageDrawable(AppCompatResources.getDrawable(requireContext(), R.drawable.ic_permission_granted))
-            false -> binding.fabPermissions.setImageDrawable(AppCompatResources.getDrawable(requireContext(), R.drawable.ic_permission_no_granted))
-        }
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -88,10 +80,8 @@ class ApplicationListFragment : Fragment() {
 
     private fun requestPermissions() {
         if (PermissionUtility.hasPackageUsageStatsPermissions(requireContext())) {
-            hasPermissions(true)
             return
         }
-        hasPermissions(false)
         val intent = Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)
         startActivity(intent)
     }
@@ -101,10 +91,5 @@ class ApplicationListFragment : Fragment() {
             viewModel.requestBackgroundProcesses()
         }
     }
-
-    private fun hasPermissions(value: Boolean){
-            viewModel.hasPermissions(value)
-    }
-
 
 }

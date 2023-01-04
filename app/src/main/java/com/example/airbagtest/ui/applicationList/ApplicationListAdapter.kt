@@ -1,4 +1,4 @@
-package com.example.airbagtest.ui.ApplicationList
+package com.example.airbagtest.ui.applicationList
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
