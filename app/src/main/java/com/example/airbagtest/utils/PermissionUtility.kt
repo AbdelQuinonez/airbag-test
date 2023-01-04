@@ -22,7 +22,7 @@ object PermissionUtility {
             appOps.checkOpNoThrow(
                 OPSTR_GET_USAGE_STATS,
                 Process.myUid(), context.packageName
-            );
+            )
         }
 
         return mode == AppOpsManager.MODE_ALLOWED

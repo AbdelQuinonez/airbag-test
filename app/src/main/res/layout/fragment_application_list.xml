@@ -5,6 +5,8 @@
     android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:paddingTop="@dimen/padding_application_list_recycler_view"
+        android:clipToPadding="false"
         android:id="@+id/rvRunningAppProcess"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

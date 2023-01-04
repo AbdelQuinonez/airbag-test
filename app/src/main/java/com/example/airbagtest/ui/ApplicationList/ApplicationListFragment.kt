@@ -6,15 +6,18 @@ import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.airbagtest.R
 import com.example.airbagtest.databinding.FragmentApplicationListBinding
 import com.example.airbagtest.model.RunningAppProcess
 import com.example.airbagtest.ui.ApplicationList.state.ApplicationListUiState
 import com.example.airbagtest.utils.PermissionUtility
+import com.example.airbagtest.utils.SimpleDialogUtility
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -37,7 +40,7 @@ class ApplicationListFragment : Fragment() {
     private fun initObservable() {
 
         viewLifecycleOwner.lifecycleScope.launch{
-            viewModel.uiState.collect{
+            viewModel.uiState.observe(viewLifecycleOwner){
                 updateUi(it)
             }
         }
@@ -48,6 +51,9 @@ class ApplicationListFragment : Fragment() {
         binding.rvRunningAppProcess.apply {
             layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
             adapter = applicationListAdapter
+        }
+        binding.fabPermissions.setOnClickListener{
+            SimpleDialogUtility(requireContext()).showDialog()
         }
     }
 
@@ -61,7 +67,10 @@ class ApplicationListFragment : Fragment() {
     }
 
     private fun updateFloatingButton(hasPermissions: Boolean){
-
+        when(hasPermissions){
+            true -> binding.fabPermissions.setImageDrawable(AppCompatResources.getDrawable(requireContext(), R.drawable.ic_permission_granted))
+            false -> binding.fabPermissions.setImageDrawable(AppCompatResources.getDrawable(requireContext(), R.drawable.ic_permission_no_granted))
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -70,7 +79,6 @@ class ApplicationListFragment : Fragment() {
         loadView()
         requestPermissions()
         requestProcessesToShowList()
-
     }
 
     override fun onDestroyView() {
@@ -95,9 +103,7 @@ class ApplicationListFragment : Fragment() {
     }
 
     private fun hasPermissions(value: Boolean){
-        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.hasPermissions(value)
-        }
     }
 
 

@@ -4,5 +4,7 @@
     <dimen name="match_constraints">0dp</dimen>
 
     <dimen name="margin_floating_button">32dp</dimen>
+    <dimen name="margin_application_process_item">10dp</dimen>
+    <dimen name="padding_application_list_recycler_view">10dp</dimen>
 
 </resources>
