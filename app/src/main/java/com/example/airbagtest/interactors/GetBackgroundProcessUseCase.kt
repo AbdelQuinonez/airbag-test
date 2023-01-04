@@ -4,7 +4,7 @@ import android.app.usage.UsageStatsManager
 import android.content.Context
 import android.content.Context.USAGE_STATS_SERVICE
 import com.example.airbagtest.database.model.RunningAppProcessCache
-import com.example.airbagtest.database.model.toRemote
+import com.example.airbagtest.database.model.toCache
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
@@ -19,13 +19,17 @@ class GetBackgroundProcessUseCase @Inject constructor(
         /* We get usage stats for the last 10 seconds */
         val stats = mUsageStatsManager.queryUsageStats(
             UsageStatsManager.INTERVAL_DAILY,
-            time - 1000 * 10,
+            time - TEN_SECONDS,
             time
         )
 
         return List(stats.size){ i ->
-            stats[i].toRemote()
+            stats[i].toCache()
         }
+    }
+
+    companion object{
+        const val TEN_SECONDS = 10000
     }
 
 }

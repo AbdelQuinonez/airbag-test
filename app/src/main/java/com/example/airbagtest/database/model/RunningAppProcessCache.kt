@@ -23,7 +23,7 @@ fun RunningAppProcessCache.fromCacheToRemote(): RunningAppProcessRemote =
         processName = this.processName,
     )
 
-fun UsageStats.toRemote(): RunningAppProcessCache =
+fun UsageStats.toCache(): RunningAppProcessCache =
     RunningAppProcessCache(
         processName = this.packageName
     )
